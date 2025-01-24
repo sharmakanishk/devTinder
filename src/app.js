@@ -10,6 +10,7 @@ const { validateToken } = require("./middlewares/validateToken")
 const {authRouter } = require("./routes/authRoute")
 const {profileRouter} = require("./routes/profileRoute")
 const {connectionRouter} = require("./routes/connectionRequest")
+const {userRouter}= require("./routes/userRoute")
 
 app.use(express.json())
 app.use(cookie())
@@ -27,7 +28,7 @@ db()
 app.use('/',authRouter);
 app.use('/',profileRouter)
 app.use('/', connectionRouter)
-
+app.use('/',userRouter)
 
 
 

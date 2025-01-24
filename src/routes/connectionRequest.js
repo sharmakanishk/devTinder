@@ -4,7 +4,7 @@ const Connection = require("../models/connection")
 const User = require("../models/user")
 const { validateToken} = require("../middlewares/validateToken")
 
-const VISIBLE_DATA= "firstname lastname gender age skills profilepic"
+
 
 connectionRouter.post("/connect/:status/:toUserId",validateToken, async (req, res)=>{
     try{
@@ -68,53 +68,54 @@ connectionRouter.post("/connect/review/:status/:requestId", validateToken, async
     }
 })
 
-connectionRouter.get("/connect/details", validateToken,async (req, res)=>{
-    try{
-        const loggedInUserId = req.user.userId;
-        const data = await Connection.find({
-            //$or only works on top level, if use more than one, combine in 
-            // single or, otherwise it will take the last or
-            // $or: [
-            //     { toUserId: loggedInUserId },
-            //     { fromUserId: loggedInUserId }
-            // ],
-            // $or: [
-            //     { status: "interested" },
-            //     { status: "accepted" }
-            // ]
-            //The above didn't work
-            $or: [
-                { toUserId: loggedInUserId, status: { $in: ["interested", "accepted"] } },
-                { fromUserId: loggedInUserId, status: { $in: ["interested", "accepted"] } }
-            ]
-        })
-        if(!data){
-            throw new Error("There are no connections yet")
-        }
-        //  data.forEach(async (v)=>{
-        //     if(v.toUserId.toString()===loggedInUserId.toString()){
-        //         await v.populate("fromUserId")
-        //     }
-        //     else{
-        //         await v.populate("toUserId")
-        //     }
-        // })
-        //async await doesn't work properly with forEach, either use For of or Promise.all with map
-        for (let v of data) {
-            if (v.toUserId.toString() === loggedInUserId.toString()) {
-                await v.populate("fromUserId", VISIBLE_DATA);
-            } else {
-                await v.populate("toUserId", VISIBLE_DATA);
-            }
-        }
-        res.json({
-            message: "Please find the connection details",
-            data: data
-        })
-    }catch(err){
+// connectionRouter.get("/connect/details", validateToken,async (req, res)=>{
+//     try{
+//         const loggedInUserId = req.user.userId;
+//         const data = await Connection.find({
+//             //$or only works on top level, if use more than one, combine in 
+//             // single or, otherwise it will take the last or
+//             // $or: [
+//             //     { toUserId: loggedInUserId },
+//             //     { fromUserId: loggedInUserId }
+//             // ],
+//             // $or: [
+//             //     { status: "interested" },
+//             //     { status: "accepted" }
+//             // ]
+//             //The above didn't work
+//             $or: [
+//                 { toUserId: loggedInUserId, status: { $in: ["interested", "accepted"] } },
+//                 { fromUserId: loggedInUserId, status: { $in: ["interested", "accepted"] } }
+//             ]
+//         })
+//         if(!data){
+//             throw new Error("There are no connections yet")
+//         }
+//             Problem: Loop and await takes a lot of time use Promise.all instead
+//         //  data.forEach(async (v)=>{
+//         //     if(v.toUserId.toString()===loggedInUserId.toString()){
+//         //         await v.populate("fromUserId")
+//         //     }
+//         //     else{
+//         //         await v.populate("toUserId")
+//         //     }
+//         // })
+//         //async await doesn't work properly with forEach, either use For of or Promise.all with map
+//         for (let v of data) {
+//             if (v.toUserId.toString() === loggedInUserId.toString()) {
+//                 await v.populate("fromUserId", VISIBLE_DATA);
+//             } else {
+//                 await v.populate("toUserId", VISIBLE_DATA);
+//             }
+//         }
+//         res.json({
+//             message: "Please find the connection details",
+//             data: data
+//         })
+//     }catch(err){
 
-    }
+//     }
     
-})
+// })
 
 module.exports = {connectionRouter};
