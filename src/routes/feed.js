@@ -13,6 +13,7 @@ User rejected ones cannot be shown as well
 
 feedRouter.get("/feed",validateToken ,async (req, res)=>{
     try{
+        const {limit=10, page=1}= req.query;
         const loggedInUserId = req.user.userId;
         const excludedUsers = await Connection.find({
         $or:[
@@ -28,7 +29,7 @@ feedRouter.get("/feed",validateToken ,async (req, res)=>{
         }) 
         let userList = await User.find({
             _id: { $nin: Array.from(excludedUsersId)}
-        });
+        }).limit(limit*1).skip((page-1)*limit);
         res.json({"message": "Please find the users",
             "Users": userList
     })
