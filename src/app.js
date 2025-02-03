@@ -11,6 +11,7 @@ const {authRouter } = require("./routes/authRoute")
 const {profileRouter} = require("./routes/profileRoute")
 const {connectionRouter} = require("./routes/connectionRequest")
 const {userRouter}= require("./routes/userRoute")
+const {feedRouter} = require("./routes/feed")
 
 app.use(express.json())
 app.use(cookie())
@@ -29,6 +30,7 @@ app.use('/',authRouter);
 app.use('/',profileRouter)
 app.use('/', connectionRouter)
 app.use('/',userRouter)
+app.use('/', feedRouter)
 
 
 
