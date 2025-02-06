@@ -18,7 +18,7 @@ authRouter.post("/signup",validateInputKeys, validateInput, async (req, res)=>{
         await user.save();
         const token = user.getJWT();
         res.cookie("token",token)
-        res.send("User added successfully!!")
+        res.send(user)
     }catch(err){
         res.status(403).send(err.message)
     }
@@ -29,19 +29,19 @@ authRouter.post("/login",async (req, res)=>{
         const {email, password}= req.body;
         const user = await User.findOne({email});
         if(!user){
-            throw new Error("Invalid email or password")
+            throw new Error("Invalid credentials")
         }
         const result = await bcrypt.compare(password, user.password);
         if(result){
             const token = user.getJWT();
             res.cookie("token", token)
-            res.send("Login successful")
+            res.send(user)
         }
         else{
-            res.send("Invalid username or password")
+            throw new Error("Invalid credentials")
         }
     }catch(err){
-        res.send(err.message)
+        res.status(401).send(err.message)
     }
 })
 

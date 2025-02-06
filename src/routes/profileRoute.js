@@ -9,7 +9,7 @@ const bcrypt = require("bcrypt")
 profileRouter.get("/profile", validateToken, async (req, res)=>{
     try{
         const user = await User.findById(req.user.userId)
-        res.json({message: "Welcome to the profile page "+ user.firstname})
+        res.send(user)
     }catch(err){
         res.send(err.message)
     }

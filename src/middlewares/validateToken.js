@@ -11,7 +11,7 @@ function validateToken(req, res, next){
         req.user = result;
         next()
     }catch(err){
-        res.send(err.message)
+        res.status(401).send(err.message)
     }
 }
 
