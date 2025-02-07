@@ -15,6 +15,9 @@ const userSchema = new mongoose.Schema({
         minLength:3,
         maxLength:50,
     },
+    age:{
+        type: Number,
+    },
     email:{
         type: String,
         required : true,
@@ -68,7 +71,10 @@ const userSchema = new mongoose.Schema({
             }
         }
     },
-
+    about:{
+        type:String,
+        default: "Please add your about",
+    }
 },
 {
     timestamps: true

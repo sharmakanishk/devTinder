@@ -25,7 +25,7 @@ profileRouter.patch("/profile/update/info", validateToken, validateInputKeys, as
                     throw new Error("Email ID cannot be changed, please register again.")
                 }
                 user = await User.findByIdAndUpdate(userId,req.body, { new: true, runValidators: true })
-                res.send("The updated user details is " + user)
+                res.send(user)
         }
         else{
             res.status(401).send("Something went wrong")

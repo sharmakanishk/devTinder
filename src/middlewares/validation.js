@@ -23,7 +23,7 @@ function validateInput(req, res, next){
 
 function validateInputKeys(req, res, next){
     try{
-        const REQ_ATTRIBUTES=["email", "firstname", "lastname", "skills", "phone", "gender", "profilepic", "age", "password"]
+        const REQ_ATTRIBUTES=["email", "firstname", "lastname", "skills", "phone", "gender", "profilepic", "age", "password", "about"]
         const ans = Object.keys(req.body).every((v)=>(REQ_ATTRIBUTES.includes(v)))
         if(!ans){
             throw new Error("The parameter is not valid!")
