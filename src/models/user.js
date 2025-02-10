@@ -62,7 +62,7 @@ const userSchema = new mongoose.Schema({
     },
     profilepic:{
         type: String,
-        default:"https://www.pngitem.com/middle/hxRbRT_profile-icon-png-default-profile-picture-png-transparent/",
+        default:"https://www.iihm.ac.in/wp-content/uploads/2019/01/Mubeena-700x700.jpg",
         validate:{
             validator: function(v){
                 if(!validate.isURL(v)){

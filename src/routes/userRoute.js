@@ -2,7 +2,7 @@ const express = require("express")
 const userRouter = express.Router()
 const { validateToken}= require("../middlewares/validateToken")
 const Connection = require("../models/connection")
-const SAFE_DATA= "firstname lastname gender age skills profilepic"
+const SAFE_DATA= "firstname lastname gender age skills profilepic about"
 
 userRouter.get("/user/connection/request", validateToken, async (req, res)=>{
     try{
@@ -14,10 +14,7 @@ userRouter.get("/user/connection/request", validateToken, async (req, res)=>{
             if(data.length === 0){
                 throw new Error("There are no connections yet")
             }
-            res.json({
-                message: "Please find the connection details",
-                data: data
-            })
+            res.send(data)
         }catch(err){
             res.status(400).json({
                 message: err.message
@@ -52,7 +49,7 @@ userRouter.get("/user/connection", validateToken, async (req, res) => {
             }
             return v; // Return the populated connection document
         }));
-
+    
         // Send the response with the populated data
         res.json({
             message: "Please find the connection details",
