@@ -30,9 +30,7 @@ feedRouter.get("/feed",validateToken ,async (req, res)=>{
         let userList = await User.find({
             _id: { $nin: Array.from(excludedUsersId)}
         }).limit(limit*1).skip((page-1)*limit);
-        res.json({"message": "Please find the users",
-            "Users": userList
-    })
+        res.send(userList)
     }catch(err){
         res.send(err.message)
     }
