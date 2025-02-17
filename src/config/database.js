@@ -8,7 +8,7 @@ const mongoose = require('mongoose')
 //     return  mongoose.connect("mongodb+srv://Kanishk:qIyPnIaOWXxJ5CwP@cluster0.teczp.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0/devTinder")
 // }
 const mongoConnect =  ()=>{
-    return  mongoose.connect("mongodb+srv://Kanishk:qIyPnIaOWXxJ5CwP@cluster0.teczp.mongodb.net/devTinder?retryWrites=true&w=majority&appName=Cluster0")
+    return  mongoose.connect(process.env.MONGODB_URI)
 }
 
 

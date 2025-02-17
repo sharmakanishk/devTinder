@@ -82,7 +82,7 @@ const userSchema = new mongoose.Schema({
 
 
 userSchema.methods.getJWT = function(){
-    return jwt.sign({userId:this._id}, "DEVTINDER@123")
+    return jwt.sign({userId:this._id}, process.env.SECRET)
 }
 
 

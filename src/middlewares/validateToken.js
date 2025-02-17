@@ -7,7 +7,7 @@ function validateToken(req, res, next){
         if(!token){
             throw new Error("Please Login or Signup first")
         }
-        const result = jwt.verify(token, "DEVTINDER@123");
+        const result = jwt.verify(token, process.env.SECRET);
         req.user = result;
         next()
     }catch(err){

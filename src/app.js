@@ -13,6 +13,8 @@ const {connectionRouter} = require("./routes/connectionRequest")
 const {userRouter}= require("./routes/userRoute")
 const {feedRouter} = require("./routes/feed")
 const cors = require("cors")
+require("dotenv").config()
+
 
 const corsOptions = {
     origin: "http://localhost:5173",
@@ -23,11 +25,12 @@ app.use(cors(corsOptions))
 app.use(express.json())
 app.use(cookie())
 
+const DEFAULT_PORT = process.env.NODE_ENV === "production" ? 7777 : 5000;
 db()
 .then((resolve)=>{
     console.log("DB connected")
-    app.listen(7777, ()=>{
-        console.log("The server is listening on port 7777");
+    app.listen(DEFAULT_PORT, ()=>{
+        console.log("The server is listening on port " + DEFAULT_PORT);
     })
 }).catch((err)=>{
     console.error(err.message)
