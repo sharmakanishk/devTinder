@@ -1,12 +1,8 @@
 const express = require('express')
+const { createServer} = require("http")
 const db = require("./config/database")
-const jwt = require("jsonwebtoken")
 const cookie = require("cookie-parser")
-const bcrypt = require("bcrypt")
 const app = express()
-const User = require('./models/user')
-const { validateInput, validateInputKeys} = require("./middlewares/validation")
-const { validateToken } = require("./middlewares/validateToken")
 const {authRouter } = require("./routes/authRoute")
 const {profileRouter} = require("./routes/profileRoute")
 const {connectionRouter} = require("./routes/connectionRequest")
@@ -15,6 +11,11 @@ const {feedRouter} = require("./routes/feed")
 const cors = require("cors")
 require("dotenv").config()
 
+const socketBackendConnection = require("./utils/webSockets")
+const chatRouter = require('./routes/chat')
+
+const httpServer = createServer(app)
+socketBackendConnection(httpServer)
 
 const corsOptions = {
     origin: "http://localhost:5173",
@@ -29,7 +30,7 @@ const DEFAULT_PORT = process.env.NODE_ENV === "production" ? 7777 : 5000;
 db()
 .then((resolve)=>{
     console.log("DB connected")
-    app.listen(DEFAULT_PORT, ()=>{
+    httpServer.listen(DEFAULT_PORT, ()=>{
         console.log("The server is listening on port " + DEFAULT_PORT);
     })
 }).catch((err)=>{
@@ -41,6 +42,7 @@ app.use('/',profileRouter)
 app.use('/', connectionRouter)
 app.use('/',userRouter)
 app.use('/', feedRouter)
+app.use('/', chatRouter)
 
 
 
