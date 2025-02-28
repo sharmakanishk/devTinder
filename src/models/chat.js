@@ -2,6 +2,12 @@ const mongoose = require('mongoose')
 const User = require('./user')
 
 const messageSchema = new mongoose.Schema({
+    chatId:
+    {
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Chat",
+        required:true,
+    },
     userId:
     {
         type:mongoose.Schema.Types.ObjectId,
@@ -29,10 +35,6 @@ const chatSchema = new mongoose.Schema({
         ref:"User",
         required:true,
     },
-    messages:[ {
-        type:mongoose.Schema.Types.ObjectId,
-        ref: "Message",
-    },]
 },
 {timestamps:true})
 

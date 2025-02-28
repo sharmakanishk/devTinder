@@ -60,19 +60,18 @@ const socketBackendConnection = (httpServer)=> {
             const roomId = secureRoom(id, toUserId);
             console.log(firstname+" : "+text)
             io.to(roomId).emit("receivedMessage",{id, text})
-            const message = new Message({
-                userId:id,
-                text,
-            });
-            await message.save()
             let chat = await Chat.findOne({
                 $or:[
                     {userId1:id, userId2:toUserId},
                     {userId1:toUserId, userId2:id},
                 ]
-            })
-            chat.messages.push(message.id)
-            await chat.save()
+            });
+            const message = new Message({
+                chatId:chat._id,
+                userId:id,
+                text,
+            });
+            await message.save()
         })
         socket.on("disconnect",()=>{
         })
