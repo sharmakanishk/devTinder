@@ -13,6 +13,7 @@ const secureRoom = (toUserId, id)=>{
 
 const socketBackendConnection = (httpServer)=> {
     const io = new Server(httpServer, {
+        path: process.env.NODE_ENV === "production" ? "/api/socket.io" : "/socket.io", 
         cors: {
             origin:"http://localhost:5173",
             credentials: true,

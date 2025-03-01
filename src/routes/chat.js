@@ -14,6 +14,7 @@ chatRouter.get("/chat/:toUserId/messages",validateToken, async (req, res)=>{
                 {userId1:toUserId, userId2:id},
             ]
         })
+    
         if (!chat) {
             return res.send([]);
         }
