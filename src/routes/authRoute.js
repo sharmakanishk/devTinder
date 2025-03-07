@@ -20,6 +20,9 @@ authRouter.post("/signup",validateInputKeys, validateInput, async (req, res)=>{
         res.cookie("token",token)
         res.send(user)
     }catch(err){
+        if(err.code === 11000){
+            res.status(403).send("Email ID already exist. Kindly try another email");
+        }
         res.status(403).send(err.message)
     }
 })

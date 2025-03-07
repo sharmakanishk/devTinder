@@ -12,7 +12,7 @@ userRouter.get("/user/connection/request", validateToken, async (req, res)=>{
                 status: "interested"
             }).populate("fromUserId", SAFE_DATA)
             if(data.length === 0){
-                throw new Error("There are no connections yet")
+                throw new Error("There are no request pending!")
             }
             res.send(data)
         }catch(err){
@@ -20,7 +20,6 @@ userRouter.get("/user/connection/request", validateToken, async (req, res)=>{
                 message: err.message
             });
         }
-      
 })
 
 userRouter.get("/user/connection", validateToken, async (req, res) => {
